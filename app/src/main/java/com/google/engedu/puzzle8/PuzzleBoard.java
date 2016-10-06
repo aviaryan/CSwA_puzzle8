@@ -62,7 +62,6 @@ public class PuzzleBoard {
         if (tiles == null) {
             return;
         }
-        Log.d(LOG_TAG, "Drawing");
         for (int i = 0; i < NUM_TILES * NUM_TILES; i++) {
             PuzzleTile tile = tiles.get(i);
             if (tile != null) {

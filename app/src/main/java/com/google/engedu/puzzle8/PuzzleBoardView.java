@@ -98,7 +98,7 @@ public class PuzzleBoardView extends View {
         while (!boardQueue.isEmpty()){
             PuzzleBoard temp = boardQueue.poll();
             solution.add(temp);
-//            Log.d(LOG_TAG, "Solving " + temp.priority());
+            Log.d(LOG_TAG, "Solving " + temp.priority());
             if ((temp.priority() - temp.steps) != 0){ // not the solution
                 for (PuzzleBoard p : temp.neighbours()){
                     if (!p.equals(previousBoard)) {

@@ -24,7 +24,7 @@ public class PuzzleActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
-    private String mTempPhotoPath;
+    // private String mTempPhotoPath;
     private Uri mTempImageUri;
     private String LOG_TAG = "DLG";
 
@@ -94,7 +94,7 @@ public class PuzzleActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mTempPhotoPath = "file:" + image.getAbsolutePath();
+        // mTempPhotoPath = "file:" + image.getAbsolutePath();
         return image;
     }
 
