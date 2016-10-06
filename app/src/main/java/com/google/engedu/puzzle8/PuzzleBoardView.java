@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class PuzzleBoardView extends View {
@@ -17,6 +22,7 @@ public class PuzzleBoardView extends View {
     private PuzzleBoard puzzleBoard;
     private ArrayList<PuzzleBoard> animation;
     private Random random = new Random();
+    private final String LOG_TAG = "DLG";
 
     public PuzzleBoardView(Context context) {
         super(context);
@@ -82,5 +88,43 @@ public class PuzzleBoardView extends View {
     }
 
     public void solve() {
+        Comparator<PuzzleBoard> comparator = new PuzzleBoardComparator();
+        PriorityQueue<PuzzleBoard> boardQueue = new PriorityQueue<PuzzleBoard>(1000, comparator);
+        puzzleBoard.steps = 0; puzzleBoard.previousBoard = null;
+        boardQueue.add(puzzleBoard);
+        ArrayList<PuzzleBoard> solution = new ArrayList<>();
+        PuzzleBoard previousBoard = null;
+
+        while (!boardQueue.isEmpty()){
+            PuzzleBoard temp = boardQueue.poll();
+            solution.add(temp);
+//            Log.d(LOG_TAG, "Solving " + temp.priority());
+            if ((temp.priority() - temp.steps) != 0){ // not the solution
+                for (PuzzleBoard p : temp.neighbours()){
+                    if (!p.equals(previousBoard)) {
+                        p.steps = 0;
+                        boardQueue.add(p);
+                    }
+                }
+            } else { // solution
+                animation = solution;
+                invalidate();
+                break;
+            }
+            previousBoard = temp;
+        }
+    }
+}
+
+// Comparing Puzzle Boards
+class PuzzleBoardComparator implements Comparator<PuzzleBoard>
+{
+    @Override
+    public int compare(PuzzleBoard lhs, PuzzleBoard rhs) {
+        if (lhs.priority() < rhs.priority())
+            return -1;
+        if (lhs.priority() > rhs.priority())
+            return 1;
+        return 0;
     }
 }

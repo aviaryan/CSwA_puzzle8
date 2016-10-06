@@ -18,6 +18,8 @@ public class PuzzleBoard {
     };
     private ArrayList<PuzzleTile> tiles = new ArrayList<>();
     private String LOG_TAG = "DLG";
+    public int steps = 0;
+    public PuzzleBoard previousBoard = null;
 
     PuzzleBoard(Bitmap bitmap, int parentWidth) {
         Log.d(LOG_TAG, "" + bitmap.getWidth());
@@ -37,10 +39,16 @@ public class PuzzleBoard {
 
     PuzzleBoard(PuzzleBoard otherBoard) {
         tiles = (ArrayList<PuzzleTile>) otherBoard.tiles.clone();
+        steps = otherBoard.steps + 1;
+        previousBoard = otherBoard;
     }
 
     public void reset() {
         // Nothing for now but you may have things to reset once you implement the solver.
+    }
+
+    public PuzzleBoard getPreviousBoard(){
+        return previousBoard;
     }
 
     @Override
@@ -136,7 +144,17 @@ public class PuzzleBoard {
     }
 
     public int priority() {
-        return 0;
+        int count = steps, realPos;
+        for (int i=0; i<NUM_TILES; i++){
+            for (int j=0; j<NUM_TILES; j++){
+                if (tiles.get(NUM_TILES * i + j) == null)
+                    continue;
+                realPos = tiles.get(NUM_TILES * i + j).getNumber();
+                count += Math.abs( (realPos / NUM_TILES) - i );
+                count += Math.abs( (realPos % NUM_TILES) - j );
+            }
+        }
+        return count;
     }
 
 }
