@@ -16,7 +16,7 @@ public class PuzzleBoard {
             { 0, -1 },
             { 0, 1 }
     };
-    private ArrayList<PuzzleTile> tiles = new ArrayList<>();
+    public ArrayList<PuzzleTile> tiles = new ArrayList<>();
     private String LOG_TAG = "DLG";
     public int steps = 0;
     public PuzzleBoard previousBoard = null;
