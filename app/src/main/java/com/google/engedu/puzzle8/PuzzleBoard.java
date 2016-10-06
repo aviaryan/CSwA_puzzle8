@@ -109,7 +109,30 @@ public class PuzzleBoard {
     }
 
     public ArrayList<PuzzleBoard> neighbours() {
-        return null;
+        int i, j=0;
+        // get empty tile
+        for (i=0; i<NUM_TILES; i++){
+            for (j=0; j<NUM_TILES; j++){
+                if (tiles.get(i * NUM_TILES + j) == null){
+                    break;
+                }
+            }
+            if (j != NUM_TILES) break;
+        }
+        int nullX = j, nullY = i;
+        ArrayList<PuzzleBoard> neighbourBoards = new ArrayList<>();
+        // evaluate neighbours
+        // find and add them in ArrayList
+        for (i=0; i<4; i++){
+            int x = nullX + NEIGHBOUR_COORDS[i][0];
+            int y = nullY + NEIGHBOUR_COORDS[i][1];
+            if (x >= 0 && x < NUM_TILES && y >= 0 && y < NUM_TILES){
+                PuzzleBoard copy = new PuzzleBoard(this);
+                copy.swapTiles(nullY * NUM_TILES + nullX, y * NUM_TILES + x);
+                neighbourBoards.add(copy);
+            }
+        }
+        return neighbourBoards;
     }
 
     public int priority() {
