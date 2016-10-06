@@ -23,7 +23,9 @@ public class PuzzleBoard {
 
     PuzzleBoard(Bitmap bitmap, int parentWidth) {
         Log.d(LOG_TAG, "" + bitmap.getWidth());
-        Bitmap squareBitmap = Bitmap.createScaledBitmap(bitmap, parentWidth, parentWidth, false);
+        int tempHeight = (int) (((float) parentWidth / (float) bitmap.getWidth()) * bitmap.getHeight());
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, parentWidth, tempHeight, false);
+        Bitmap squareBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, parentWidth, parentWidth);
         int size = squareBitmap.getWidth() / NUM_TILES;
         for (int i=0; i<NUM_TILES; i++){
             for (int j=0; j<NUM_TILES; j++){
